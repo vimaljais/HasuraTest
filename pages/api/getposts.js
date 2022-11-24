@@ -5,11 +5,12 @@ import fetchGraphQL from '../../utils/graphql';
 export default async (req, res) => {
   const operationsDoc = `
   query MyQuery {
-    users {
-      age
-      gender
+    post {
+      title
       id
-      username
+      created_at
+      updated_at
+      content
     }
   }
 `;

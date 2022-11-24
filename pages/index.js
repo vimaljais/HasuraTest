@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 
-import styles from '../styles/Home.module.css';
+import styles from '../styles/insertusers.module.css';
 
 export default function Home() {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
+    username: '',
+    age: '',
+    id: '',
+    gender: true,
   });
 
   const updateFormData = (event) =>
@@ -16,46 +16,57 @@ export default function Home() {
       [event.target.name]: event.target.value,
     });
 
-  const { firstName, lastName, email, password } = formData;
+  const submit = async (e) => {
+    e.preventDefault();
+
+    fetch('/api/insertusers', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((res) => res.json())
+      .then((res) => console.log(res));
+  };
+
+  const { username, age, id, gender } = formData;
 
   return (
     <div className={styles.container}>
       <h1>InsertPage</h1>
-      <form>
+      <form onSubmit={(e) => submit(e)}>
         <input
-          value={firstName}
+          className="input"
+          value={username}
           onChange={(e) => updateFormData(e)}
           placeholder="First name"
           type="text"
-          name="firstName"
+          name="username"
           required
         />
         <input
-          value={lastName}
+          className="input"
+          value={age}
           onChange={(e) => updateFormData(e)}
-          placeholder="Last name"
+          placeholder="age"
           type="text"
-          name="lastName"
+          name="age"
           required
         />
         <input
-          value={email}
+          className="input"
+          value={id}
           onChange={(e) => updateFormData(e)}
-          placeholder="Email address"
-          type="email"
-          name="email"
-          required
-        />
-        <input
-          value={password}
-          onChange={(e) => updateFormData(e)}
-          placeholder="Password"
-          type="password"
-          name="password"
+          placeholder="id"
+          type="text"
+          name="id"
           required
         />
 
-        <button type="submit">Submit</button>
+        <button className="button" type="submit">
+          Submit
+        </button>
       </form>
     </div>
   );

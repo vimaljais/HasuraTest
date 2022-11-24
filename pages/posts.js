@@ -1,26 +1,26 @@
-import Head from 'next/head';
 import React, { useEffect, useState } from 'react';
 
 import styles from '../styles/Home.module.css';
 
 export default function Users() {
-  const [users, setUsers] = useState([]);
+  const [posts, setposts] = useState([]);
 
   useEffect(() => {
-    fetch('/api/getusers')
+    fetch('/api/getposts')
       .then((res) => res.json())
-      .then((res) => setUsers(res.users));
+      .then((res) => setposts(res.post));
   }, []);
 
   return (
     <div className={styles.container}>
-      {users.length > 0 ? (
-        users.map((user, i) => {
+      {posts.length > 0 ? (
+        posts.map((post, i) => {
           return (
             <div key={i}>
-              {user.username} <br />
-              {user.id} <br />
-              {user.age}
+              {post.title} <br />
+              {post.id} <br />
+              {post.created_at} <br />
+              {post.content} <br />
               <br />
               <br />
             </div>

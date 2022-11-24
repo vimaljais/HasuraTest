@@ -1,21 +1,24 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
-
 import fetchGraphQL from '../../utils/graphql';
 
 export default async (req, res) => {
+  const { title, id, content, userId } = req.body;
+
   const operationsDoc = `
-  query MyQuery {
-    users {
-      age
-      gender
-      id
-      username
+    mutation insertuser {
+      insert_post(objects: {title: ${title}, id: ${id}, content: ${content}, user_id: ${userId}}) {
+        returning {
+          id
+        }
+      }
     }
-  }
-`;
+  `;
 
   async function startFetchMyQuery() {
-    const { errors, data } = await fetchGraphQL(operationsDoc, 'MyQuery', {});
+    const { errors, data } = await fetchGraphQL(
+      operationsDoc,
+      'insertuser',
+      {}
+    );
     if (errors) {
       console.error(errors);
     }
